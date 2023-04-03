@@ -38,10 +38,10 @@ enum RequestMethod {
 }
 
 class CloudFunctionsTobClient extends TobClient {
-  Future<dynamic> _makeRequest(
-    String path, {
-    Map<String, dynamic>? queryParameters,
-    RequestMethod method = RequestMethod.get,
+  Future<dynamic> _makeRequest({
+    required String path,
+    required RequestMethod method,
+    Map<String, dynamic> queryParameters = const {},
     dynamic body,
   }) async {
     final token = await GetIt.instance.get<AuthNotifier>().getToken();
@@ -72,14 +72,18 @@ class CloudFunctionsTobClient extends TobClient {
 
   @override
   Future<GetSdksResponse> getSdks() async {
-    final map = await _makeRequest('getSdkList');
+    final map = await _makeRequest(
+      method: RequestMethod.get,
+      path: 'getSdkList',
+    );
     return GetSdksResponse.fromJson(map);
   }
 
   @override
   Future<ContentTreeModel> getContentTree(String sdkId) async {
     final map = await _makeRequest(
-      'getContentTree',
+      method: RequestMethod.get,
+      path: 'getContentTree',
       queryParameters: {
         'sdk': sdkId,
       },
@@ -91,7 +95,8 @@ class CloudFunctionsTobClient extends TobClient {
   @override
   Future<UnitContentModel> getUnitContent(String sdkId, String unitId) async {
     final map = await _makeRequest(
-      'getUnitContent',
+      method: RequestMethod.get,
+      path: 'getUnitContent',
       queryParameters: {
         'sdk': sdkId,
         'id': unitId,
@@ -107,7 +112,8 @@ class CloudFunctionsTobClient extends TobClient {
       return null;
     }
     final map = await _makeRequest(
-      'getUserProgress',
+      method: RequestMethod.get,
+      path: 'getUserProgress',
       queryParameters: {
         'sdk': sdkId,
       },
@@ -119,8 +125,8 @@ class CloudFunctionsTobClient extends TobClient {
   @override
   Future<void> postUnitComplete(String sdkId, String id) async {
     await _makeRequest(
-      'postUnitComplete',
       method: RequestMethod.post,
+      path: 'postUnitComplete',
       queryParameters: {
         'sdk': sdkId,
         'id': id,
@@ -131,8 +137,8 @@ class CloudFunctionsTobClient extends TobClient {
   @override
   Future<void> postDeleteUserProgress() async {
     await _makeRequest(
-      'postDeleteProgress',
       method: RequestMethod.post,
+      path: 'postDeleteProgress',
     );
   }
 
@@ -143,7 +149,7 @@ class CloudFunctionsTobClient extends TobClient {
     required String unitId,
   }) async {
     await _makeRequest(
-      'postUserCode',
+      path: 'postUserCode',
       method: RequestMethod.post,
       queryParameters: {
         'sdk': sdkId,
