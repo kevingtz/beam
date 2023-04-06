@@ -16,28 +16,21 @@
  * limitations under the License.
  */
 
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
-import 'package:playground_components/playground_components.dart';
-import 'package:tour_of_beam/main.dart' as app;
 
-void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+import '../widget_tester.dart';
 
-  group('theme', () {
-    testWidgets('mode toggle', (tester) async {
-      app.main();
-      await tester.pumpAndSettle();
-      final Finder switchToDarkModeButton =
-          find.widgetWithText(ToggleThemeButton, 'ui.darkMode'.tr());
-      expect(switchToDarkModeButton, findsOneWidget);
-      await tester.tap(switchToDarkModeButton);
-      await tester.pumpAndSettle();
-      expect(
-        find.widgetWithText(ToggleThemeButton, 'ui.lightMode'.tr()),
-        findsOneWidget,
-      );
-    });
-  });
+
+
+Future<void> checkToggleBrightnessMode(WidgetTester wt) async {
+  final startBrightness = wt.getBrightness();
+  final invertedBrightness =
+      startBrightness == Brightness.light ? Brightness.dark : Brightness.light;
+
+  await wt.toggleTheme();
+  expect(wt.getBrightness(), invertedBrightness);
+
+  await wt.toggleTheme();
+  expect(wt.getBrightness(), startBrightness);
 }

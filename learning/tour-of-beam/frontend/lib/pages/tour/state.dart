@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:app_state/app_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:playground_components/playground_components.dart';
@@ -47,6 +48,7 @@ class TourNotifier extends ChangeNotifier with PageStateMixin<void> {
   final _unitContentCache = GetIt.instance.get<UnitContentCache>();
   final _unitProgressCache = GetIt.instance.get<UnitProgressCache>();
   UnitContentModel? _currentUnitContent;
+  bool _isLoadingSnippet = false;
 
   TourNotifier({
     required String initialSdkId,
@@ -305,6 +307,27 @@ class TourNotifier extends ChangeNotifier with PageStateMixin<void> {
     );
 
     return playgroundController;
+  }
+
+  static Future<void> _loadExamples({
+    required PlaygroundController controller,
+    required List<ExampleLoadingDescriptor> descriptors,
+  }) async {
+    try {
+      await controller.examplesLoader.load(
+        ExamplesLoadingDescriptor(
+          descriptors: descriptors,
+        ),
+      );
+    } on ExampleLoadingException catch (e) {
+      PlaygroundComponents.toastNotifier.add(
+        Toast(
+          description: ExampleLoadingException(e).toString(),
+          title: 'errors.toastTitle'.tr(),
+          type: ToastType.error,
+        ),
+      );
+    }
   }
 
   @override

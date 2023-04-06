@@ -18,8 +18,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:playground/components/dropdown_button/dropdown_button.dart';
 import 'package:playground/modules/editor/components/pipeline_options_dropdown/pipeline_options_dropdown_body.dart';
+import 'package:playground_components/playground_components.dart';
 
 const kDropdownWidth = 400.0;
 const kDropdownHeight = 375.0;

@@ -28,12 +28,14 @@ import 'widgets/unit_content.dart';
 
 class TourScreen extends StatelessWidget {
   final TourNotifier tourNotifier;
+  static const dragHandleKey = Key('dragHandleKey');
 
   const TourScreen(this.tourNotifier);
 
   @override
   Widget build(BuildContext context) {
     return TobScaffold(
+      playgroundController: tourNotifier.playgroundController,
       child: MediaQuery.of(context).size.width > ScreenBreakpoints.twoColumns
           ? _WideTour(tourNotifier)
           : _NarrowTour(tourNotifier),
@@ -53,15 +55,32 @@ class _WideTour extends StatelessWidget {
       children: [
         ContentTreeWidget(controller: tourNotifier.contentTreeController),
         Expanded(
-          child: SplitView(
-            direction: Axis.horizontal,
-            first: UnitContentWidget(tourNotifier),
-            second: PlaygroundDemoWidget(
-              playgroundController: tourNotifier.playgroundController,
-            ),
-          ),
+          child: _UnitContentWidget(tourNotifier: tourNotifier),
         ),
       ],
+    );
+  }
+}
+
+class _UnitContentWidget extends StatelessWidget {
+  const _UnitContentWidget({required this.tourNotifier});
+
+  final TourNotifier tourNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: tourNotifier,
+      builder: (context, widget) {
+        return SplitView(
+          direction: Axis.horizontal,
+          dragHandleKey: TourScreen.dragHandleKey,
+          first: UnitContentWidget(tourNotifier),
+          second: PlaygroundDemoWidget(
+            playgroundController: tourNotifier.playgroundController,
+          ),
+        );
+      },
     );
   }
 }

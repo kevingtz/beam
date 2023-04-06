@@ -18,20 +18,19 @@
 
 // TODO(alexeyinkin): Generate this file on deployment.
 
-const _cloudFunctionsProjectRegion = 'us-east1';
-const _cloudFunctionsProjectId = 'river-key-378010';
+const environment = 'stg_';
+
+const _cloudFunctionsProjectRegion = 'us-west1';
+const _cloudFunctionsProjectId = 'apache-beam-testing';
 const cloudFunctionsBaseUrl = 'https://'
     '$_cloudFunctionsProjectRegion-$_cloudFunctionsProjectId'
-    '.cloudfunctions.net';
+    '.cloudfunctions.net/$environment';
 
-// Copied from Playground's config.g.dart
+// // Copied from Playground's config.g.dart
 
-const String kAnalyticsUA = 'UA-73650088-2';
-const String kApiClientURL = 'https://router.play-dev.beam.apache.org';
-const String kApiJavaClientURL = 'https://java.play-dev.beam.apache.org';
-const String kApiGoClientURL =
-    'https://backend-go-beta-dot-apache-beam-testing.appspot.com';
-const String kApiPythonClientURL =
-    'https://backend-python-beta-dot-apache-beam-testing.appspot.com';
-const String kApiScioClientURL =
-    'https://backend-scio-beta-dot-apache-beam-testing.appspot.com';
+// const String kAnalyticsUA = 'UA-73650088-2';
+// const String kApiClientURL = 'https://router.play-dev.beam.apache.org';
+// const String kApiJavaClientURL = 'https://java.play-dev.beam.apache.org';
+// const String kApiGoClientURL = 'https://go.play-dev.beam.apache.org';
+// const String kApiPythonClientURL = 'https://python.play-dev.beam.apache.org';
+// const String kApiScioClientURL = 'https://scio.play-dev.beam.apache.org';

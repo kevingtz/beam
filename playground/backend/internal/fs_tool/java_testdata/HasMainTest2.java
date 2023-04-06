@@ -15,19 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+class Bar {
+    public static void bar() {
+        System.out.println("Hello");
+    }
+    public static void main(java.lang.String[] args) {
+        Bar.bar();
+    }
+}
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:playground_components_dev/playground_components_dev.dart';
+class HasMainTest1 {
 
-Future<void> checkToggleBrightnessMode(WidgetTester wt) async {
-  final startBrightness = wt.getBrightness();
-  final invertedBrightness =
-      startBrightness == Brightness.light ? Brightness.dark : Brightness.light;
-
-  await wt.toggleTheme();
-  expect(wt.getBrightness(), invertedBrightness);
-
-  await wt.toggleTheme();
-  expect(wt.getBrightness(), startBrightness);
 }
