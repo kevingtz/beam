@@ -17,7 +17,6 @@
 
 dialogs:
   cancel: Cancel
-  submit: Submit
 
 errors:
   error: 'Error'
@@ -49,6 +48,13 @@ widgets:
   
   closeButton:
     label: 'Close'
+  
+  feedback:
+    bad: 'Bad Experience'
+    good: 'Good Experience'
+    hint: "Have feedback? We'd love to hear it, but please don't share sensitive information."
+    send: 'Send Feedback'
+    title: 'Feedback'
 
   output:
     filter:

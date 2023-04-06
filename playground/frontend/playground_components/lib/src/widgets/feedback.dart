@@ -27,15 +27,11 @@ enum Rating { none, positive, negative }
 
 class FeedbackWidget extends StatefulWidget {
   final String title;
-  final String dropdownTitle;
-  final String dropdownSubtitle;
   final Function(Rating) onRatingChanged;
   final Function(Rating, String) onSubmitPressed;
 
   const FeedbackWidget({
     required this.title,
-    required this.dropdownTitle,
-    required this.dropdownSubtitle,
     required this.onRatingChanged,
     required this.onSubmitPressed,
   });
@@ -62,8 +58,8 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
         left: 20,
         child: OverlayBody(
           child: _FeedbackDropdown(
-            title: widget.dropdownTitle,
-            subtitle: widget.dropdownSubtitle,
+            title: 'widgets.feedback.title'.tr(),
+            subtitle: 'widgets.feedback.hint'.tr(),
             rating: _rating,
             onSubmitPressed: widget.onSubmitPressed,
             close: closeNotifier.notifyPublic,
@@ -83,23 +79,29 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(width: BeamSizes.size6),
-        InkWell(
-          onTap: () {
-            _onRatingChanged(Rating.positive);
-          },
-          child: _RatingIcon(
-            groupValue: _rating,
-            value: Rating.positive,
+        Tooltip(
+          message: 'widgets.feedback.bad'.tr(),
+          child: InkWell(
+            onTap: () {
+              _onRatingChanged(Rating.positive);
+            },
+            child: _RatingIcon(
+              groupValue: _rating,
+              value: Rating.positive,
+            ),
           ),
         ),
         const SizedBox(width: BeamSizes.size6),
-        InkWell(
-          onTap: () {
-            _onRatingChanged(Rating.negative);
-          },
-          child: _RatingIcon(
-            groupValue: _rating,
-            value: Rating.negative,
+        Tooltip(
+          message: 'widgets.feedback.good'.tr(),
+          child: InkWell(
+            onTap: () {
+              _onRatingChanged(Rating.negative);
+            },
+            child: _RatingIcon(
+              groupValue: _rating,
+              value: Rating.negative,
+            ),
           ),
         ),
       ],
@@ -166,18 +168,9 @@ class _FeedbackDropdown extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              GestureDetector(
-                onTap: close,
-                child: const Icon(Icons.close),
-              ),
-            ],
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
           const SizedBox(height: BeamSizes.size8),
           Text(
@@ -197,29 +190,12 @@ class _FeedbackDropdown extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              // TODO(nausharipov) review: no need, because of Icons.close.
-              // OutlinedButton(
-              //   onPressed: close,
-              //   style: OutlinedButton.styleFrom(
-              //     padding: const EdgeInsets.all(BeamSizes.size20),
-              //     side: BorderSide(
-              //       color: Theme.of(context).dividerColor,
-              //     ),
-              //     // shape: const RoundedRectangleBorder(
-              //     //   borderRadius: BorderRadius.all(
-              //     //     Radius.circular(BeamSizes.size4),
-              //     //   ),
-              //     // ),
-              //   ),
-              //   child: const Text('dialogs.cancel').tr(),
-              // ),
-              // const SizedBox(width: BeamSizes.size8),
               ElevatedButton(
                 onPressed: () {
                   onSubmitPressed(rating, _feedback.text);
                   close();
                 },
-                child: const Text('dialogs.submit').tr(),
+                child: const Text('widgets.feedback.send').tr(),
               ),
             ],
           ),
