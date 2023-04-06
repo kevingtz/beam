@@ -20,6 +20,7 @@ ui:
   builtWith: Built with Apache Beam
   continueGitHub: Continue with GitHub
   continueGoogle: Continue with Google
+  feedbackTitle: Enjoying Tour of Beam?
   hint: Hint
   deleteAccount: Delete my account
   signIn: Sign in

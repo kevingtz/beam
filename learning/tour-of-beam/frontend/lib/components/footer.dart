@@ -41,11 +41,7 @@ class Footer extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               FeedbackWidget(
-                dropdownTitle: 'Feedback',
-                dropdownSubtitle: 'Have feedback? We\'d love to hear it,'
-                    ' but please don\'t share sensitive information.'
-                    '\nHave questions? Try help or support.',
-                title: 'Enjoying Tour of Beam?',
+                title: 'ui.feedbackTitle'.tr(),
                 onRatingChanged: (rating) {
                   print([
                     'onRatingChanged',
