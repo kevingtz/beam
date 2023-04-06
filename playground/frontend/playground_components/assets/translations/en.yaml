@@ -17,6 +17,7 @@
 
 dialogs:
   cancel: Cancel
+  submit: Submit
 
 errors:
   error: 'Error'

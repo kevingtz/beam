@@ -41,6 +41,27 @@ class Footer extends StatelessWidget {
             spacing: BeamSizes.size16,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
+              // TODO(nausharipov) review: merge with GA4 events.
+              FeedbackWidget(
+                dropdownTitle: 'Feedback',
+                dropdownSubtitle: 'Have feedback? We\'d love to hear it,'
+                    ' but please don\'t share sensitive information.'
+                    '\nHave questions? Try help or support.',
+                title: 'Enjoying Tour of Beam?',
+                onRatingChanged: (rating) {
+                  print([
+                    'onRatingChanged',
+                    rating,
+                  ]);
+                },
+                onSubmitPressed: (rating, text) {
+                  print([
+                    'onSubmitPressed',
+                    rating,
+                    text,
+                  ]);
+                },
+              ),
               const _ReportIssueButton(),
               const _PrivacyPolicyButton(),
               const Text('ui.copyright').tr(),

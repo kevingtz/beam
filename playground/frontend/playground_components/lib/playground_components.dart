@@ -74,6 +74,7 @@ export 'src/widgets/dialog.dart';
 export 'src/widgets/dialogs/confirm.dart';
 export 'src/widgets/dialogs/progress.dart';
 export 'src/widgets/divider.dart';
+export 'src/widgets/feedback.dart';
 export 'src/widgets/header_icon_button.dart';
 export 'src/widgets/loading_error.dart';
 export 'src/widgets/loading_indicator.dart';
