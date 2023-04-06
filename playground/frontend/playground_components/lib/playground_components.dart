@@ -103,6 +103,7 @@ export 'src/widgets/complexity.dart';
 export 'src/widgets/copyright.dart';
 export 'src/widgets/dialog.dart';
 export 'src/widgets/divider.dart';
+export 'src/widgets/feedback.dart';
 export 'src/widgets/header_icon_button.dart';
 export 'src/widgets/loading_error.dart';
 export 'src/widgets/loading_indicator.dart';

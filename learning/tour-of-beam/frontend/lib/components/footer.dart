@@ -40,6 +40,26 @@ class Footer extends StatelessWidget {
             spacing: BeamSizes.size16,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
+              FeedbackWidget(
+                dropdownTitle: 'Feedback',
+                dropdownSubtitle: 'Have feedback? We\'d love to hear it,'
+                    ' but please don\'t share sensitive information.'
+                    '\nHave questions? Try help or support.',
+                title: 'Enjoying Tour of Beam?',
+                onRatingChanged: (rating) {
+                  print([
+                    'onRatingChanged',
+                    rating,
+                  ]);
+                },
+                onSubmitPressed: (rating, text) {
+                  print([
+                    'onSubmitPressed',
+                    rating,
+                    text,
+                  ]);
+                },
+              ),
               ReportIssueButton(playgroundController: playgroundController),
               const PrivacyPolicyButton(),
               const CopyrightWidget(),
