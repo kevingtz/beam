@@ -24,6 +24,7 @@ export 'src/constants/links.dart';
 export 'src/constants/sizes.dart';
 
 export 'src/controllers/example_loaders/examples_loader.dart';
+export 'src/controllers/feedback_controller.dart';
 export 'src/controllers/playground_controller.dart';
 export 'src/controllers/public_notifier.dart';
 export 'src/controllers/window_close_notifier/window_close_notifier.dart';
@@ -73,7 +74,6 @@ export 'src/services/analytics/events/abstract.dart';
 export 'src/services/analytics/events/app_rated.dart';
 export 'src/services/analytics/events/constants.dart';
 export 'src/services/analytics/events/external_url_navigated.dart';
-export 'src/services/analytics/events/feedback_event_context.dart';
 export 'src/services/analytics/events/feedback_form_sent.dart';
 export 'src/services/analytics/events/report_issue_clicked.dart';
 export 'src/services/analytics/events/run_cancelled.dart';

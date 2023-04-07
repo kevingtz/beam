@@ -42,12 +42,8 @@ class Footer extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               FeedbackWidget(
-                eventContext: GetIt.instance.get<FeedbackEventContext>(),
+                controller: GetIt.instance.get<FeedbackController>(),
                 title: 'ui.feedbackTitle'.tr(),
-                onRatingChanged: (rating) {
-                  // TODO(nausharipov) review: are callbacks needed for sending events or requests?
-                },
-                onSubmitPressed: (rating, text) {},
               ),
               ReportIssueButton(playgroundController: playgroundController),
               const PrivacyPolicyButton(),

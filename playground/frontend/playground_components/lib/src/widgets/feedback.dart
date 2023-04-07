@@ -23,39 +23,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../playground_components.dart';
 import '../assets/assets.gen.dart';
 
-class FeedbackWidget extends StatefulWidget {
-  final FeedbackEventContext eventContext;
+class FeedbackWidget extends StatelessWidget {
+  final FeedbackController controller;
   final String title;
-  final Function(FeedbackRating) onRatingChanged;
-  final Function(FeedbackRating, String) onSubmitPressed;
 
   const FeedbackWidget({
-    required this.eventContext,
+    required this.controller,
     required this.title,
-    required this.onRatingChanged,
-    required this.onSubmitPressed,
   });
 
-  @override
-  State<FeedbackWidget> createState() => _FeedbackWidgetState();
-}
+  void _onRatingChanged(BuildContext context, FeedbackRating rating) {
+    controller.setRating(rating);
 
-class _FeedbackWidgetState extends State<FeedbackWidget> {
-  FeedbackRating? _rating;
-
-  void _onRatingChanged(FeedbackRating rating) {
     PlaygroundComponents.analyticsService.sendUnawaited(
       AppRatedAnalyticsEvent(
         rating: rating,
-        snippetContext: widget.eventContext.eventSnippetContext,
-        additionalParams: widget.eventContext.additionalParams,
+        snippetContext: controller.eventSnippetContext,
+        additionalParams: controller.additionalParams,
       ),
     );
-
-    setState(() {
-      _rating = rating;
-    });
-    widget.onRatingChanged(rating);
 
     final closeNotifier = PublicNotifier();
     openOverlay(
@@ -67,8 +53,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
         child: OverlayBody(
           child: _FeedbackDropdown(
             close: closeNotifier.notifyPublic,
-            eventContext: widget.eventContext,
-            onSubmitPressed: widget.onSubmitPressed,
+            controller: controller,
             rating: rating,
             title: 'widgets.feedback.title'.tr(),
             subtitle: 'widgets.feedback.hint'.tr(),
@@ -80,40 +65,43 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          widget.title,
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
-        const SizedBox(width: BeamSizes.size6),
-        Tooltip(
-          message: 'widgets.feedback.good'.tr(),
-          child: InkWell(
-            onTap: () {
-              _onRatingChanged(FeedbackRating.positive);
-            },
-            child: _RatingIcon(
-              groupValue: _rating,
-              value: FeedbackRating.positive,
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(width: BeamSizes.size6),
+          Tooltip(
+            message: 'widgets.feedback.positive'.tr(),
+            child: InkWell(
+              onTap: () {
+                _onRatingChanged(context, FeedbackRating.positive);
+              },
+              child: _RatingIcon(
+                groupValue: controller.rating,
+                value: FeedbackRating.positive,
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: BeamSizes.size6),
-        Tooltip(
-          message: 'widgets.feedback.bad'.tr(),
-          child: InkWell(
-            onTap: () {
-              _onRatingChanged(FeedbackRating.negative);
-            },
-            child: _RatingIcon(
-              groupValue: _rating,
-              value: FeedbackRating.negative,
+          const SizedBox(width: BeamSizes.size6),
+          Tooltip(
+            message: 'widgets.feedback.negative'.tr(),
+            child: InkWell(
+              onTap: () {
+                _onRatingChanged(context, FeedbackRating.negative);
+              },
+              child: _RatingIcon(
+                groupValue: controller.rating,
+                value: FeedbackRating.negative,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -146,18 +134,16 @@ class _RatingIcon extends StatelessWidget {
 }
 
 class _FeedbackDropdown extends StatelessWidget {
-  final FeedbackEventContext eventContext;
+  final FeedbackController controller;
   final VoidCallback close;
-  final Function(FeedbackRating, String) onSubmitPressed;
   final FeedbackRating rating;
   final String title;
   final String subtitle;
 
   _FeedbackDropdown({
-    required this.eventContext,
+    required this.controller,
     required this.title,
     required this.rating,
-    required this.onSubmitPressed,
     required this.close,
     required this.subtitle,
   });
@@ -204,11 +190,10 @@ class _FeedbackDropdown extends StatelessWidget {
                     FeedbackFormSentAnalyticsEvent(
                       rating: rating,
                       text: _feedback.text,
-                      snippetContext: eventContext.eventSnippetContext,
-                      additionalParams: eventContext.additionalParams,
+                      snippetContext: controller.eventSnippetContext,
+                      additionalParams: controller.additionalParams,
                     ),
                   );
-                  onSubmitPressed(rating, _feedback.text);
                   close();
                 },
                 child: const Text('widgets.feedback.send').tr(),

@@ -16,14 +16,25 @@
  * limitations under the License.
  */
 
-import '../../../models/event_snippet_context.dart';
+import 'package:flutter/foundation.dart';
 
-class FeedbackEventContext {
+import '../enums/feedback_rating.dart';
+import '../models/event_snippet_context.dart';
+
+class FeedbackController extends ChangeNotifier {
   EventSnippetContext? eventSnippetContext;
   Map<String, dynamic> additionalParams;
 
-  FeedbackEventContext({
+  FeedbackController({
     this.eventSnippetContext,
     this.additionalParams = const {},
   });
+
+  FeedbackRating? _rating;
+  FeedbackRating? get rating => _rating;
+
+  void setRating(FeedbackRating rating) {
+    _rating = rating;
+    notifyListeners();
+  }
 }
