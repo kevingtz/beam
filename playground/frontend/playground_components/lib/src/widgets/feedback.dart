@@ -114,20 +114,20 @@ class _RatingIcon extends StatelessWidget {
     required this.value,
   });
 
-  @override
-  Widget build(BuildContext context) {
+  String _getAsset() {
     final isSelected = value == groupValue;
-    final String asset;
     switch (value) {
       case FeedbackRating.positive:
-        asset = isSelected ? Assets.svg.thumbUpFilled : Assets.svg.thumbUp;
-        break;
+        return isSelected ? Assets.svg.thumbUpFilled : Assets.svg.thumbUp;
       case FeedbackRating.negative:
-        asset = isSelected ? Assets.svg.thumbDownFilled : Assets.svg.thumbDown;
-        break;
+        return isSelected ? Assets.svg.thumbDownFilled : Assets.svg.thumbDown;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SvgPicture.asset(
-      asset,
+      _getAsset(),
       package: PlaygroundComponents.packageName,
     );
   }
