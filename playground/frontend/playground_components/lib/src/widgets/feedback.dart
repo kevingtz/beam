@@ -80,7 +80,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
         ),
         const SizedBox(width: BeamSizes.size6),
         Tooltip(
-          message: 'widgets.feedback.bad'.tr(),
+          message: 'widgets.feedback.good'.tr(),
           child: InkWell(
             onTap: () {
               _onRatingChanged(Rating.positive);
@@ -93,7 +93,7 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
         ),
         const SizedBox(width: BeamSizes.size6),
         Tooltip(
-          message: 'widgets.feedback.good'.tr(),
+          message: 'widgets.feedback.bad'.tr(),
           child: InkWell(
             onTap: () {
               _onRatingChanged(Rating.negative);
