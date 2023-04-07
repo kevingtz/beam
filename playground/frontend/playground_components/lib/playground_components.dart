@@ -73,6 +73,7 @@ export 'src/services/analytics/events/abstract.dart';
 export 'src/services/analytics/events/app_rated.dart';
 export 'src/services/analytics/events/constants.dart';
 export 'src/services/analytics/events/external_url_navigated.dart';
+export 'src/services/analytics/events/feedback_event_context.dart';
 export 'src/services/analytics/events/feedback_form_sent.dart';
 export 'src/services/analytics/events/report_issue_clicked.dart';
 export 'src/services/analytics/events/run_cancelled.dart';

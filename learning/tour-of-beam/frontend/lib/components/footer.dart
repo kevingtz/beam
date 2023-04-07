@@ -18,6 +18,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:playground_components/playground_components.dart';
 
 import '../constants/sizes.dart';
@@ -41,20 +42,12 @@ class Footer extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               FeedbackWidget(
+                eventContext: GetIt.instance.get<FeedbackEventContext>(),
                 title: 'ui.feedbackTitle'.tr(),
                 onRatingChanged: (rating) {
-                  print([
-                    'onRatingChanged',
-                    rating,
-                  ]);
+                  // TODO(nausharipov) review: are callbacks needed for sending events or requests?
                 },
-                onSubmitPressed: (rating, text) {
-                  print([
-                    'onSubmitPressed',
-                    rating,
-                    text,
-                  ]);
-                },
+                onSubmitPressed: (rating, text) {},
               ),
               ReportIssueButton(playgroundController: playgroundController),
               const PrivacyPolicyButton(),

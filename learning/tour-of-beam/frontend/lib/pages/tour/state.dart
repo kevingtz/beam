@@ -172,6 +172,8 @@ class TourNotifier extends ChangeNotifier with PageStateMixin<void> {
     final taskSnippetId = content.taskSnippetId;
     await _setPlaygroundSnippet(taskSnippetId);
     _isShowingSolution = false;
+
+    _fillFeedbackController();
   }
 
   Future<void> _setPlaygroundSnippet(String? snippetId) async {
@@ -240,5 +242,12 @@ class TourNotifier extends ChangeNotifier with PageStateMixin<void> {
     _appNotifier.removeListener(_onAppNotifierChanged);
     _authNotifier.removeListener(_onUnitProgressChanged);
     await super.dispose();
+  }
+
+  void _fillFeedbackController() {
+    GetIt.instance.get<FeedbackEventContext>().eventSnippetContext =
+        playgroundController.eventSnippetContext;
+    GetIt.instance.get<FeedbackEventContext>().additionalParams =
+        _tobEventContext.toJson();
   }
 }

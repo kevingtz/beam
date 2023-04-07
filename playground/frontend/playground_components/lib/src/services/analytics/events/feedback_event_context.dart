@@ -16,31 +16,14 @@
  * limitations under the License.
  */
 
-import '../../../enums/feedback_rating.dart';
-import 'abstract.dart';
-import 'constants.dart';
+import '../../../models/event_snippet_context.dart';
 
-/// A thump-up or thumb-down button pressed without yet entering feedback text.
-class AppRatedAnalyticsEvent extends AnalyticsEventWithSnippetContext {
-  const AppRatedAnalyticsEvent({
-    required this.rating,
-    required super.snippetContext,
-    super.additionalParams,
-  }) : super(
-          name: BeamAnalyticsEvents.appRated,
-        );
+class FeedbackEventContext {
+  EventSnippetContext? eventSnippetContext;
+  Map<String, dynamic> additionalParams;
 
-  final FeedbackRating rating;
-
-  @override
-  List<Object?> get props => [
-        ...super.props,
-        rating,
-      ];
-
-  @override
-  Map<String, dynamic> toJson() => {
-        ...super.toJson(),
-        EventParams.feedbackRating: rating.name,
-      };
+  FeedbackEventContext({
+    this.eventSnippetContext,
+    this.additionalParams = const {},
+  });
 }

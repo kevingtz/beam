@@ -23,14 +23,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../playground_components.dart';
 import '../assets/assets.gen.dart';
 
-enum Rating { none, positive, negative }
-
 class FeedbackWidget extends StatefulWidget {
+  final FeedbackEventContext eventContext;
   final String title;
-  final Function(Rating) onRatingChanged;
-  final Function(Rating, String) onSubmitPressed;
+  final Function(FeedbackRating) onRatingChanged;
+  final Function(FeedbackRating, String) onSubmitPressed;
 
   const FeedbackWidget({
+    required this.eventContext,
     required this.title,
     required this.onRatingChanged,
     required this.onSubmitPressed,
@@ -41,16 +41,24 @@ class FeedbackWidget extends StatefulWidget {
 }
 
 class _FeedbackWidgetState extends State<FeedbackWidget> {
-  Rating _rating = Rating.none;
+  FeedbackRating? _rating;
 
-  void _onRatingChanged(Rating rating) {
+  void _onRatingChanged(FeedbackRating rating) {
+    PlaygroundComponents.analyticsService.sendUnawaited(
+      AppRatedAnalyticsEvent(
+        rating: rating,
+        snippetContext: widget.eventContext.eventSnippetContext,
+        additionalParams: widget.eventContext.additionalParams,
+      ),
+    );
+
     setState(() {
       _rating = rating;
     });
-    widget.onRatingChanged(_rating);
+    widget.onRatingChanged(rating);
 
     final closeNotifier = PublicNotifier();
-    showOverlay(
+    openOverlay(
       context: context,
       closeNotifier: closeNotifier,
       positioned: Positioned(
@@ -58,11 +66,12 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
         left: 20,
         child: OverlayBody(
           child: _FeedbackDropdown(
+            close: closeNotifier.notifyPublic,
+            eventContext: widget.eventContext,
+            onSubmitPressed: widget.onSubmitPressed,
+            rating: rating,
             title: 'widgets.feedback.title'.tr(),
             subtitle: 'widgets.feedback.hint'.tr(),
-            rating: _rating,
-            onSubmitPressed: widget.onSubmitPressed,
-            close: closeNotifier.notifyPublic,
           ),
         ),
       ),
@@ -80,27 +89,27 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
         ),
         const SizedBox(width: BeamSizes.size6),
         Tooltip(
-          message: 'widgets.feedback.bad'.tr(),
+          message: 'widgets.feedback.good'.tr(),
           child: InkWell(
             onTap: () {
-              _onRatingChanged(Rating.positive);
+              _onRatingChanged(FeedbackRating.positive);
             },
             child: _RatingIcon(
               groupValue: _rating,
-              value: Rating.positive,
+              value: FeedbackRating.positive,
             ),
           ),
         ),
         const SizedBox(width: BeamSizes.size6),
         Tooltip(
-          message: 'widgets.feedback.good'.tr(),
+          message: 'widgets.feedback.bad'.tr(),
           child: InkWell(
             onTap: () {
-              _onRatingChanged(Rating.negative);
+              _onRatingChanged(FeedbackRating.negative);
             },
             child: _RatingIcon(
               groupValue: _rating,
-              value: Rating.negative,
+              value: FeedbackRating.negative,
             ),
           ),
         ),
@@ -110,8 +119,8 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
 }
 
 class _RatingIcon extends StatelessWidget {
-  final Rating groupValue;
-  final Rating value;
+  final FeedbackRating? groupValue;
+  final FeedbackRating value;
   const _RatingIcon({
     required this.groupValue,
     required this.value,
@@ -122,14 +131,11 @@ class _RatingIcon extends StatelessWidget {
     final isSelected = value == groupValue;
     final String asset;
     switch (value) {
-      case Rating.positive:
+      case FeedbackRating.positive:
         asset = isSelected ? Assets.svg.thumbUpFilled : Assets.svg.thumbUp;
         break;
-      case Rating.negative:
+      case FeedbackRating.negative:
         asset = isSelected ? Assets.svg.thumbDownFilled : Assets.svg.thumbDown;
-        break;
-      case Rating.none:
-        asset = '';
         break;
     }
     return SvgPicture.asset(
@@ -140,13 +146,15 @@ class _RatingIcon extends StatelessWidget {
 }
 
 class _FeedbackDropdown extends StatelessWidget {
+  final FeedbackEventContext eventContext;
   final VoidCallback close;
-  final Function(Rating, String) onSubmitPressed;
-  final Rating rating;
+  final Function(FeedbackRating, String) onSubmitPressed;
+  final FeedbackRating rating;
   final String title;
   final String subtitle;
 
   _FeedbackDropdown({
+    required this.eventContext,
     required this.title,
     required this.rating,
     required this.onSubmitPressed,
@@ -192,6 +200,14 @@ class _FeedbackDropdown extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
+                  PlaygroundComponents.analyticsService.sendUnawaited(
+                    FeedbackFormSentAnalyticsEvent(
+                      rating: rating,
+                      text: _feedback.text,
+                      snippetContext: eventContext.eventSnippetContext,
+                      additionalParams: eventContext.additionalParams,
+                    ),
+                  );
                   onSubmitPressed(rating, _feedback.text);
                   close();
                 },
