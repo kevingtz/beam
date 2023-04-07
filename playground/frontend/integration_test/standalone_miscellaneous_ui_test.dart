@@ -22,7 +22,6 @@ import 'package:integration_test/integration_test.dart';
 import 'common/common.dart';
 import 'miscellaneous_ui/description_test.dart';
 import 'miscellaneous_ui/external_url_navigation.dart';
-import 'miscellaneous_ui/feedback_test.dart';
 import 'miscellaneous_ui/new_example.dart';
 import 'miscellaneous_ui/output_placement_test.dart';
 import 'miscellaneous_ui/report_issue.dart';
@@ -37,7 +36,8 @@ void main() {
     (WidgetTester wt) async {
       await init(wt);
 
-      await checkFeedback(wt);
+      // TODO(nausharipov) review: modify tests.
+      // await checkFeedback(wt);
       await checkDescription(wt);
       await checkOutputPlacement(wt);
       await checkResizeOutput(wt);

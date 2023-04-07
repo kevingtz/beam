@@ -42,6 +42,7 @@ import '../services/symbols/symbols_notifier.dart';
 import '../util/logical_keyboard_key.dart';
 import 'code_runner.dart';
 import 'example_loaders/examples_loader.dart';
+import 'feedback_controller.dart';
 import 'result_filter_controller.dart';
 import 'snippet_editing_controller.dart';
 
@@ -88,6 +89,8 @@ class PlaygroundController with ChangeNotifier {
     final result = SnippetEditingController(sdk: sdk);
     _snippetEditingControllers[sdk] = result;
     result.addListener(notifyListeners);
+    GetIt.instance.get<FeedbackController>().eventSnippetContext =
+        result.eventSnippetContext;
 
     if (loadDefaultIfNot) {
       // TODO(alexeyinkin): Show loading indicator if loading.
