@@ -228,10 +228,12 @@ class PlaygroundController with ChangeNotifier {
     bool notify = true,
   }) {
     _sdk = sdk;
-    _getOrCreateSnippetEditingController(
+    final controller = _getOrCreateSnippetEditingController(
       sdk,
       loadDefaultIfNot: true,
     );
+    GetIt.instance.get<FeedbackController>().eventSnippetContext =
+        controller.eventSnippetContext;
     _ensureSymbolsInitialized();
 
     if (notify) {
