@@ -201,29 +201,23 @@ class PlaygroundController with ChangeNotifier {
     }
   }
 
-  // TODO(nausharipov): split into 2 functions?
   void setExample(
     Example example, {
     required ExampleLoadingDescriptor descriptor,
     required bool setCurrentSdk,
   }) {
-    void set() {
-      final controller = _getOrCreateSnippetEditingController(
-        example.sdk,
-        loadDefaultIfNot: false,
-      );
-      GetIt.instance.get<FeedbackController>().eventSnippetContext =
-          controller.eventSnippetContext;
-      controller.setExample(example, descriptor: descriptor);
-    }
-
     if (setCurrentSdk) {
       _sdk = example.sdk;
-      set();
       _ensureSymbolsInitialized();
-    } else {
-      set();
     }
+
+    final controller = _getOrCreateSnippetEditingController(
+      example.sdk,
+      loadDefaultIfNot: false,
+    );
+    controller.setExample(example, descriptor: descriptor);
+    GetIt.instance.get<FeedbackController>().eventSnippetContext =
+        controller.eventSnippetContext;
 
     codeRunner.reset();
     notifyListeners();

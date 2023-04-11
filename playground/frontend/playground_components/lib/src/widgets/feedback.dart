@@ -148,6 +148,19 @@ class _FeedbackDropdown extends StatelessWidget {
     required this.subtitle,
   });
 
+  void _sendFeedback() {
+    PlaygroundComponents.analyticsService.sendUnawaited(
+      FeedbackFormSentAnalyticsEvent(
+        rating: rating,
+        text: controller.textController.text,
+        snippetContext: controller.eventSnippetContext,
+        additionalParams: controller.additionalParams,
+      ),
+    );
+    controller.textController.clear();
+    close();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -187,18 +200,7 @@ class _FeedbackDropdown extends StatelessWidget {
                 ElevatedButton(
                   onPressed: controller.textController.text.isEmpty
                       ? null
-                      : () {
-                          PlaygroundComponents.analyticsService.sendUnawaited(
-                            FeedbackFormSentAnalyticsEvent(
-                              rating: rating,
-                              text: controller.textController.text,
-                              snippetContext: controller.eventSnippetContext,
-                              additionalParams: controller.additionalParams,
-                            ),
-                          );
-                          controller.textController.clear();
-                          close();
-                        },
+                      : _sendFeedback,
                   child: const Text('widgets.feedback.send').tr(),
                 ),
               ],
