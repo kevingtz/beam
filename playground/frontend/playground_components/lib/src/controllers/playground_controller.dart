@@ -216,8 +216,10 @@ class PlaygroundController with ChangeNotifier {
       loadDefaultIfNot: false,
     );
     controller.setExample(example, descriptor: descriptor);
-    GetIt.instance.get<FeedbackController>().eventSnippetContext =
-        controller.eventSnippetContext;
+    if (example.sdk == _sdk) {
+      GetIt.instance.get<FeedbackController>().eventSnippetContext =
+          controller.eventSnippetContext;
+    }
 
     codeRunner.reset();
     notifyListeners();
