@@ -89,8 +89,6 @@ class PlaygroundController with ChangeNotifier {
     final result = SnippetEditingController(sdk: sdk);
     _snippetEditingControllers[sdk] = result;
     result.addListener(notifyListeners);
-    GetIt.instance.get<FeedbackController>().eventSnippetContext =
-        result.eventSnippetContext;
 
     if (loadDefaultIfNot) {
       // TODO(alexeyinkin): Show loading indicator if loading.
@@ -203,26 +201,28 @@ class PlaygroundController with ChangeNotifier {
     }
   }
 
+  // TODO(nausharipov): split into 2 functions?
   void setExample(
     Example example, {
     required ExampleLoadingDescriptor descriptor,
     required bool setCurrentSdk,
   }) {
+    void set() {
+      final controller = _getOrCreateSnippetEditingController(
+        example.sdk,
+        loadDefaultIfNot: false,
+      );
+      GetIt.instance.get<FeedbackController>().eventSnippetContext =
+          controller.eventSnippetContext;
+      controller.setExample(example, descriptor: descriptor);
+    }
+
     if (setCurrentSdk) {
       _sdk = example.sdk;
-      final controller = _getOrCreateSnippetEditingController(
-        example.sdk,
-        loadDefaultIfNot: false,
-      );
-
-      controller.setExample(example, descriptor: descriptor);
+      set();
       _ensureSymbolsInitialized();
     } else {
-      final controller = _getOrCreateSnippetEditingController(
-        example.sdk,
-        loadDefaultIfNot: false,
-      );
-      controller.setExample(example, descriptor: descriptor);
+      set();
     }
 
     codeRunner.reset();

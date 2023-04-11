@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 import '../enums/feedback_rating.dart';
 import '../models/event_snippet_context.dart';
@@ -24,6 +24,7 @@ import '../models/event_snippet_context.dart';
 class FeedbackController extends ChangeNotifier {
   EventSnippetContext? eventSnippetContext;
   Map<String, dynamic> additionalParams;
+  final textController = TextEditingController();
 
   FeedbackController({
     this.eventSnippetContext,

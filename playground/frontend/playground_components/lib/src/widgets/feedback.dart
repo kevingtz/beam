@@ -140,7 +140,7 @@ class _FeedbackDropdown extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  _FeedbackDropdown({
+  const _FeedbackDropdown({
     required this.controller,
     required this.title,
     required this.rating,
@@ -148,59 +148,63 @@ class _FeedbackDropdown extends StatelessWidget {
     required this.subtitle,
   });
 
-  final TextEditingController _feedback = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 400,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineLarge,
-          ),
-          const SizedBox(height: BeamSizes.size8),
-          Text(
-            subtitle,
-          ),
-          const SizedBox(height: BeamSizes.size8),
-          TextField(
-            controller: _feedback,
-            minLines: 3,
-            maxLines: 5,
-            keyboardType: TextInputType.multiline,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
+    return AnimatedBuilder(
+      animation: controller.textController,
+      builder: (context, child) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: const EdgeInsets.all(16),
+        width: 400,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
-          ),
-          const SizedBox(height: BeamSizes.size8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  PlaygroundComponents.analyticsService.sendUnawaited(
-                    FeedbackFormSentAnalyticsEvent(
-                      rating: rating,
-                      text: _feedback.text,
-                      snippetContext: controller.eventSnippetContext,
-                      additionalParams: controller.additionalParams,
-                    ),
-                  );
-                  close();
-                },
-                child: const Text('widgets.feedback.send').tr(),
+            const SizedBox(height: BeamSizes.size8),
+            Text(
+              subtitle,
+            ),
+            const SizedBox(height: BeamSizes.size8),
+            TextField(
+              controller: controller.textController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
               ),
-            ],
-          ),
-        ],
+              keyboardType: TextInputType.multiline,
+              maxLines: 5,
+              minLines: 3,
+            ),
+            const SizedBox(height: BeamSizes.size8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: controller.textController.text.isEmpty
+                      ? null
+                      : () {
+                          PlaygroundComponents.analyticsService.sendUnawaited(
+                            FeedbackFormSentAnalyticsEvent(
+                              rating: rating,
+                              text: controller.textController.text,
+                              snippetContext: controller.eventSnippetContext,
+                              additionalParams: controller.additionalParams,
+                            ),
+                          );
+                          controller.textController.clear();
+                          close();
+                        },
+                  child: const Text('widgets.feedback.send').tr(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
