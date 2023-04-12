@@ -19,6 +19,8 @@
 import 'package:flutter/material.dart';
 
 class DismissibleOverlay extends StatelessWidget {
+  static const dismissibleOverlayKey = Key('dismissibleOverlayKey');
+
   final VoidCallback close;
   final Positioned child;
 
@@ -33,6 +35,7 @@ class DismissibleOverlay extends StatelessWidget {
       children: [
         Positioned.fill(
           child: GestureDetector(
+            key: dismissibleOverlayKey,
             onTap: close,
           ),
         ),

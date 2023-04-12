@@ -24,6 +24,9 @@ import '../../playground_components.dart';
 import '../assets/assets.gen.dart';
 
 class FeedbackWidget extends StatelessWidget {
+  static const positiveRatingButtonKey = Key('positive');
+  static const negativeRatingButtonKey = Key('negative');
+
   final FeedbackController controller;
   final String title;
 
@@ -51,7 +54,7 @@ class FeedbackWidget extends StatelessWidget {
         bottom: 50,
         left: 20,
         child: OverlayBody(
-          child: _FeedbackDropdown(
+          child: FeedbackDropdown(
             close: closeNotifier.notifyPublic,
             controller: controller,
             rating: rating,
@@ -78,6 +81,7 @@ class FeedbackWidget extends StatelessWidget {
           Tooltip(
             message: 'widgets.feedback.positive'.tr(),
             child: InkWell(
+              key: positiveRatingButtonKey,
               onTap: () {
                 _onRatingChanged(context, FeedbackRating.positive);
               },
@@ -91,6 +95,7 @@ class FeedbackWidget extends StatelessWidget {
           Tooltip(
             message: 'widgets.feedback.negative'.tr(),
             child: InkWell(
+              key: negativeRatingButtonKey,
               onTap: () {
                 _onRatingChanged(context, FeedbackRating.negative);
               },
@@ -133,14 +138,17 @@ class _RatingIcon extends StatelessWidget {
   }
 }
 
-class _FeedbackDropdown extends StatelessWidget {
+class FeedbackDropdown extends StatelessWidget {
+  static const sendButtonKey = Key('sendFeedbackButtonKey');
+  static const textFieldKey = Key('feedbackTextFieldKey');
+
   final FeedbackController controller;
   final VoidCallback close;
   final FeedbackRating rating;
   final String title;
   final String subtitle;
 
-  const _FeedbackDropdown({
+  const FeedbackDropdown({
     required this.controller,
     required this.title,
     required this.rating,
@@ -185,6 +193,7 @@ class _FeedbackDropdown extends StatelessWidget {
             ),
             const SizedBox(height: BeamSizes.size8),
             TextField(
+              key: textFieldKey,
               controller: controller.textController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -198,6 +207,7 @@ class _FeedbackDropdown extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
+                  key: sendButtonKey,
                   onPressed: controller.textController.text.isEmpty
                       ? null
                       : _sendFeedback,

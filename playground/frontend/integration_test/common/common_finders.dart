@@ -64,28 +64,27 @@ extension CommonFindersExtension on CommonFinders {
     return byType(ExampleSelector);
   }
 
-  // TODO(nausharipov) review: modify tests.
-  // Finder feedbackDropdownCancelButton() {
-  //   return find.byKey(FeedbackDropdownContent.cancelButtonKey);
-  // }
+  Finder dismissibleOverlay() {
+    return find.byKey(DismissibleOverlay.dismissibleOverlayKey);
+  }
 
-  // Finder feedbackDropdownContent() {
-  //   return byType(FeedbackDropdownContent);
-  // }
+  Finder feedbackDropdownContent() {
+    return byType(FeedbackDropdown);
+  }
 
-  // Finder feedbackDropdownSendButton() {
-  //   return find.byKey(FeedbackDropdownContent.sendButtonKey);
-  // }
+  Finder feedbackDropdownSendButton() {
+    return find.byKey(FeedbackDropdown.sendButtonKey);
+  }
 
-  // Finder feedbackDropdownTextField() {
-  //   return find.byKey(FeedbackDropdownContent.textFieldKey);
-  // }
+  Finder feedbackDropdownTextField() {
+    return find.byKey(FeedbackDropdown.textFieldKey);
+  }
 
-  // Finder feedbackThumb(FeedbackRating rating) {
-  //   return find.byType(FeedbackDropdownIconButton).and(
-  //         find.byKey(Key(rating.name)),
-  //       );
-  // }
+  Finder feedbackThumb(FeedbackRating rating) {
+    return find.byType(FeedbackWidget).and(
+          find.byKey(Key(rating.name)),
+        );
+  }
 
   Finder moreActions() {
     return byType(MoreActions);
