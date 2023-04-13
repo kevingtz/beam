@@ -81,7 +81,7 @@ extension CommonFindersExtension on CommonFinders {
   }
 
   Finder feedbackThumb(FeedbackRating rating) {
-    return find.byType(FeedbackWidget).and(
+    return find.byType(InkWell).and(
           find.byKey(Key(rating.name)),
         );
   }
