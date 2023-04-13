@@ -19,7 +19,6 @@
 import 'package:easy_localization_ext/easy_localization_ext.dart';
 import 'package:get_it/get_it.dart';
 
-import 'controllers/feedback_controller.dart';
 import 'locator.dart';
 import 'services/analytics/analytics_service.dart';
 import 'services/toast_notifier.dart';
@@ -38,7 +37,6 @@ class PlaygroundComponents {
 
   static Future<void> ensureInitialized() async {
     await initializeServiceLocator();
-    GetIt.instance.registerSingleton(FeedbackController());
   }
 
   /// The global [BeamAnalyticsService] instance.
