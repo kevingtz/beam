@@ -9,7 +9,7 @@ on:
 env:
   cluster: metrics
   zone: us-central1-a
-	projectName: ${{env.gcloud_ProjectName}}
+  projectName: ${{env.gcloud_ProjectName}}
   kubeConfigPath: /home/jenkins/.kube/config
 
 jobs:
