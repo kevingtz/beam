@@ -13,15 +13,15 @@ env:
   kubeConfigPath: /home/jenkins/.kube/config
 
 jobs:
-	Composer:
-		if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run CommunityMetrics PreCommit')
+  Composer:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run CommunityMetrics PreCommit')
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v3
       - name: compose-build
   Validate_Configuration:
-		if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run CommunityMetrics PreCommit')
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run CommunityMetrics PreCommit')
     runs-on: ubuntu-latest
 
     steps:
