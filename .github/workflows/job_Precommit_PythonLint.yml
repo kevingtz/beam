@@ -3,6 +3,8 @@ run-name: Python Lint
 on:
   pull_request:
     branches: [ "*" ]
+  issue_comment:
+    types: [created, edited]
   workflow_dispatch:
    inputs:
      tags:
@@ -13,12 +15,11 @@ on:
 
 jobs:
   PythonLint:
-    if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run PythonLint PreCommit')
+    if: github.event.workflow_dispatch || (github.event.issue.pull_request && contains(github.event.comment.body, 'Run PythonLint PreCommit'))
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-
       - name: Move to lint position
         run: cd sdks/python/
       - uses: actions/setup-python@v4
