@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: '3.8'
       - name: Setup Virtual Env 
-        run: python -m venv --clear . && . ./bin/activate && pip install --retries 10 --upgrade pip && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
+        run: python -m venv --clear . && . ./bin/activate && pip install --retries 10 --upgrade pip && ls && pwd && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
       - name: Run python Lint 
         run: ./scripts/run_pylint.sh
       - name: Run mypy
