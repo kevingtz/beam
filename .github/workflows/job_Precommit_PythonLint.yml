@@ -1,10 +1,8 @@
-name: Precommit Community Metrics
-
+name: Precommit Python Lint
+run-name: Python Lint
 on:
-  push:
-    branches: [ $default-branch ]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [ "*" ]
   workflow_dispatch:
    inputs:
      tags:
@@ -12,11 +10,6 @@ on:
         required: false
         type: boolean
 
-env:
-  cluster: metrics
-  zone: us-central1-a
-  projectName: ${{env.gcloud_ProjectName}}
-  kubeConfigPath: /home/jenkins/.kube/config
 
 jobs:
   PythonLint:
