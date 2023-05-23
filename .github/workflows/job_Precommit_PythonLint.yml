@@ -17,7 +17,7 @@ jobs:
   PythonLint:
 #    if: github.event.workflow_dispatch || (github.event.issue.pull_request && contains(github.event.comment.body, 'Run PythonLint PreCommit'))
     runs-on: self-hosted
-    defaults:
+    #defaults:
       #run:
         #working-directory: sdks/python
 
