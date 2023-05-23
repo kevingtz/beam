@@ -1,0 +1,40 @@
+name: Precommit Community Metrics
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+env:
+  cluster: metrics
+  zone: us-central1-a
+  projectName: ${{env.gcloud_ProjectName}}
+  kubeConfigPath: /home/jenkins/.kube/config
+
+jobs:
+  Composer:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run CommunityMetrics PreCommit')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: compose-build
+  Validate_Configuration:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run CommunityMetrics PreCommit')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Cluster Credentials
+        run: gcloud container clusters get-credentials $cluster --zone $zone --project $projectName
+      - name: Validate K8s Configuration
+        run: kubectl apply --dry-run=client -Rf kubernetes
+
+      #- name: Test Metrics Stack
+        #run: TODO(BEAM-5837): Add some actual validation of the metrics stack
+
+      - name: Remove Kube Config
+        run: rm $kubeConfigPath
+
