@@ -19,7 +19,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-			- name: Change working directory
+      - name: Change working directory
         run: cd .test-infra/metrics
       - name: compose-build
         run: docker-compose build
@@ -34,8 +34,8 @@ jobs:
         run: gcloud container clusters get-credentials $cluster --zone $zone --project $projectName
       - name: Validate K8s Configuration
         uses: ghostzero/kubectl@v1
-          with:
-            args: apply --dry-run=client -Rf kubernetes
+        with:
+          args: apply --dry-run=client -Rf kubernetes
 
       #- name: Test Metrics Stack
         #run: TODO(BEAM-5837): Add some actual validation of the metrics stack
