@@ -51,7 +51,11 @@ tasks.register<TerraformTask>("terraformApplyBackend") {
     group = "backend-deploy"
     dependsOn("terraformInit")
 
-    val pgRouterHost = project.extensions.extraProperties["pg_router_host"] as String
+    val pgRouterHost = if (project.extensions.extraProperties.has("pg_router_host")) {
+        project.extensions.extraProperties["pg_router_host"] as String
+    } else {
+        "unknown"
+    }
     args(
         "apply",
         "-auto-approve",
@@ -67,7 +71,11 @@ tasks.register<TerraformTask>("terraformApplyBackend") {
 tasks.register<TerraformTask>("terraformDestroy") {
     dependsOn("getRouterHost")
 
-    val pgRouterHost = project.extensions.extraProperties["pg_router_host"] as String
+    val pgRouterHost = if (project.extensions.extraProperties.has("pg_router_host")) {
+        project.extensions.extraProperties["pg_router_host"] as String
+    } else {
+        "unknown"
+    }
     args(
         "destroy",
         "-auto-approve",
@@ -271,7 +279,7 @@ tasks.register("flutterBuildWeb") {
     doLast {
         exec {
             executable("flutter")
-            args("build", "web", "--profile", "--dart-define=Dart2jsOptimization=O0")
+            args("build", "web", "-v", "--release")
             workingDir("../frontend")
         }
     }
