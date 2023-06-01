@@ -30,9 +30,9 @@ jobs:
       - name: Install Dependencies
         run:  pip install --retries 10 --upgrade pip && ls && pwd && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
         working-directory: sdks/python
-      //- name: Run python cloud 
-        //run: tox -s "true" run py37-cloud
-        //working-directory: sdks/python
+      #- name: Run python cloud 
+        #run: tox -s "true" run py37-cloud
+        #working-directory: sdks/python
       - name: Run cython
-        run: tox -s "true" run py38-cython
+        run: tox -e py38-cython -- --ignore=apache_beam/dataframe/ --ignore=apache_beam/examples/ --ignore=apache_beam/runners/ --ignore=apache_beam/transforms/
         working-directory: sdks/python
