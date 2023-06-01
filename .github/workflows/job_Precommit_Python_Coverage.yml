@@ -42,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: python-code-coverage-report
-          path: **/pytest*.xml
+          path: "**/pytest*.xml"
