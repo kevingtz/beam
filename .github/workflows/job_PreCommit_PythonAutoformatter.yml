@@ -31,5 +31,5 @@ jobs:
         run:  pip install --retries 10 --upgrade pip && ls && pwd && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
         working-directory: sdks/python
       - name: Run python Lint 
-        run: tox -s "true" run py3-yapf-check
+        run: tox -e py3-yapf-check
         working-directory: sdks/python
