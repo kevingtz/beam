@@ -35,8 +35,4 @@ jobs:
         working-directory: sdks/python
       - name: Run mypy
         run: tox -e py${{ matrix.python_version }}-cython -- --ignore=apache_beam/dataframe/ --ignore=apache_beam/examples/ --ignore=apache_beam/runners/ --ignore=apache_beam/transforms/
-        run: tox -e py38-cloud -- --ignore=apache_beam/dataframe/ --ignore=apache_beam/examples/ --ignore=apache_beam/runners/ --ignore=apache_beam/transforms/
-        working-directory: sdks/python
-      - name: Run mypy
-        run: tox -e py38-cython -- --ignore=apache_beam/dataframe/ --ignore=apache_beam/examples/ --ignore=apache_beam/runners/ --ignore=apache_beam/transforms/
         working-directory: sdks/python
