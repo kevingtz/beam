@@ -24,17 +24,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install missing python versions
-        run: apt install -y python3.11-minimal python3.7-minimal python3.10-minimal python3.9-minimal
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.7 - 3.11'
+          python-version: '3.8'
       - name: Install Dependencies
         run:  pip install --retries 10 --upgrade pip && ls && pwd && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
         working-directory: sdks/python
       - name: Run python cloud coverage
-        run: tox -s "true" run py38-cloudcoverage
+        run: tox -e py38-cloudcoverage
         working-directory: sdks/python
       - name: Run python pyarrow
-        run: tox -s "true" run py38-pyarrow-5
+        run: tox -e py38-pyarrow-5
         working-directory: sdks/python
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-code-coverage-report
+          path: "**/pytest*.xml"

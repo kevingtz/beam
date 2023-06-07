@@ -1,0 +1,34 @@
+name: Precommit Python Transforms
+run-name: Python Precommit Transforms
+on:
+  pull_request:
+    branches: [ "master", "release-*" ]
+    paths: [ "model/.*","sdks/python/.*", "release/.*" ]
+  issue_comment:
+    types: [created, edited]
+
+
+jobs:
+  PythonTransforms:
+    strategy:
+      matrix:
+        python_version:['37,'38','39','310','311']
+    if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Python_Transforms PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
+    runs-on: [self-hosted, ubuntu-20.04]
+    defaults:
+      run:
+        working-directory: sdks/python
+
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Dependencies
+        run:  pip install --retries 10 --upgrade pip && ls && pwd && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
+        working-directory: sdks/python
+      - name: Run python cloud 
+        if: ${{ matrix.python_version  != '38' }}
+        run: tox -e py${{ matrix.python_version }}-cloud -- apache_beam/transforms/ 
+        working-directory: sdks/python
+      - name: Run cython
+        run: tox -e py${{ matrix.python_version }}-cython -- apache_beam/transforms/
+        working-directory: sdks/python

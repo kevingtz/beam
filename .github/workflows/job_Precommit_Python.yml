@@ -15,6 +15,9 @@ on:
 
 jobs:
   PythonLint:
+    strategy:
+      matrix:
+        python_version:['37,'38','39','310','311']
 #    if: github.event.workflow_dispatch || (github.event.issue.pull_request && contains(github.event.comment.body, 'Run PythonLint PreCommit'))
     runs-on: self-hosted
     defaults:
@@ -24,17 +27,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install missing python versions
-        run: apt install -y python3.11-minimal python3.7-minimal python3.10-minimal python3.9-minimal
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.7 - 3.11'
       - name: Install Dependencies
         run:  pip install --retries 10 --upgrade pip && ls && pwd && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
         working-directory: sdks/python
       - name: Run python cloud 
-        run: tox -s "true" run py37-cloud
+        run: tox -e py${{ matrix.python_version }}-cloud -- --ignore=apache_beam/dataframe/ --ignore=apache_beam/examples/ --ignore=apache_beam/runners/ --ignore=apache_beam/transforms/
         working-directory: sdks/python
       - name: Run mypy
-        run: tox -s "true" run py37-cython
+        run: tox -e py${{ matrix.python_version }}-cython -- --ignore=apache_beam/dataframe/ --ignore=apache_beam/examples/ --ignore=apache_beam/runners/ --ignore=apache_beam/transforms/
         working-directory: sdks/python

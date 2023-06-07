@@ -26,13 +26,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.7 - 3.9'
+          python-version: '3.7'
       - name: Install Dependencies
         run:  pip install --retries 10 --upgrade pip && ls && pwd && pip install --retries 10 --upgrade tox==3.20.1 -r ./build-requirements.txt
         working-directory: sdks/python
-      - name: Run python Lint
-        run: tox -s "true" run py37-lint
+      - name: Run python Lint 
+        run: tox -e py37-lint
         working-directory: sdks/python
       - name: Run mypy
-        run: tox -s "true" run py37-mypy
+        run: tox -e py37-mypy
         working-directory: sdks/python
