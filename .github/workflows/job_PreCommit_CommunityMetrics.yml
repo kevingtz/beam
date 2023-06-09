@@ -36,4 +36,4 @@ jobs:
         with:
           cache-read-only: false
       - name: run Community Metrics Precommit script
-        run: ./gradlew :communityMetricsPreCommit
+        run: gradlew :communityMetricsPreCommit
