@@ -19,10 +19,6 @@ jobs:
   CommunityMetricsPrecommit:
 #    if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run PythonDocker PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
     runs-on: self-hosted
-    defaults:
-      run:
-        working-directory: sdks/python
-
 
     steps:
       - uses: actions/checkout@v3
@@ -35,7 +31,5 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: false
-      - name: run Community Metrics Precommit script
-        run: pwd && ls
       - name: run Community Metrics Precommit script
         run: ./gradlew :communityMetricsPreCommit
