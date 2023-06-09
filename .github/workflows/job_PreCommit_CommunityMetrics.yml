@@ -7,6 +7,12 @@ on:
     #paths: [ ".test-infra/metrics/.*$"]
   issue_comment:
     types: [created, edited]
+  workflow_dispatch:
+   inputs:
+     tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
 
 
 jobs:
