@@ -5,12 +5,18 @@ on:
     branches: [ $default-branch ]
   pull_request:
     branches: [ $default-branch ]
+  workflow_dispatch:
+   inputs:
+     tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
 
 env:
   cluster: metrics
   zone: us-central1-a
   projectName: ${{env.gcloud_ProjectName}}
-  kubeConfigPath: /home/jenkins/.kube/config
+  kubeConfigPath: ./beam/jenkins/.kube/config
 
 jobs:
   Composer:
@@ -19,7 +25,10 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+      - name: Change working directory
+        run: cd .test-infra/metrics
       - name: compose-build
+        run: docker-compose build
   Validate_Configuration:
     if: github.event.issue.pull_request && contains(github.event.comment.body, 'Run CommunityMetrics PreCommit')
     runs-on: ubuntu-latest
@@ -30,7 +39,9 @@ jobs:
       - name: Get Cluster Credentials
         run: gcloud container clusters get-credentials $cluster --zone $zone --project $projectName
       - name: Validate K8s Configuration
-        run: kubectl apply --dry-run=client -Rf kubernetes
+        uses: ghostzero/kubectl@v1
+        with:
+          args: apply --dry-run=client -Rf kubernetes
 
       #- name: Test Metrics Stack
         #run: TODO(BEAM-5837): Add some actual validation of the metrics stack
