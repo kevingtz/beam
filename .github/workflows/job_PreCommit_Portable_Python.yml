@@ -18,7 +18,7 @@ jobs:
   PortablePythonPrecommit:
     strategy:
       matrix:
-        python_version: ['3.7','311']
+        python_version: ['3.7','3.11']
     #if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Portable_Python PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
     runs-on: self-hosted
 
@@ -31,7 +31,7 @@ jobs:
           java-version: '8'
       - uses: actions/setup-python@v4
         with:
-          python-version: "${matrix.python_version}"
+          python-version: "${{matrix.python_version}}"
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
