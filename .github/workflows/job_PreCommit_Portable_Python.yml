@@ -36,7 +36,5 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: false
-      - name: Setup python env variable
-        run: export PY_VER=${{ matrix.python_version }}
       - name: run Portable Python script
-        run: ./gradlew :sdks:python:test-suites:portable:py${PY_VER/./}:preCommitPy${PY_VER/./}
+        run: PY_VER=${{ matrix.python_version }} ./gradlew :sdks:python:test-suites:portable:py${PY_VER/./}:preCommitPy${PY_VER/./}
