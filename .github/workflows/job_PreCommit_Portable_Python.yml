@@ -1,5 +1,5 @@
-name: Precommit Community Metrics
-run-name: Community Metrics Precommit
+name: Precommit Portable Python
+run-name: Portable Python Precommit
 on:
   pull_request:
     branches: [ "master", "release-*" ]
