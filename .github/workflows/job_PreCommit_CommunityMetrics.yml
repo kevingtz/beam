@@ -6,17 +6,11 @@ on:
     paths: [ ".test-infra/metrics/.*$"]
   issue_comment:
     types: [created, edited]
-  workflow_dispatch:
-   inputs:
-     tags:
-        description: 'Test scenario tags'
-        required: false
-        type: boolean
 
 
 jobs:
   CommunityMetricsPrecommit:
-    if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run PythonDocker PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
+    if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run CommunityMetrics PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
     runs-on: ubuntu-20.04
 
     steps:
