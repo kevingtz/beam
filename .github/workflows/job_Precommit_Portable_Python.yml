@@ -27,7 +27,7 @@ jobs:
   PortablePythonPrecommit:
     strategy:
       matrix:
-        python_version: ['3.7','3.11']
+        python_version: ['3.7','3.10']
     if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Portable_Python PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
     runs-on: [self-hosted, ubuntu-20.04]
 
