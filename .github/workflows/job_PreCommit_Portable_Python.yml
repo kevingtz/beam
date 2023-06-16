@@ -1,0 +1,47 @@
+name: Precommit Portable Python
+run-name: Portable Python Precommit
+on:
+  pull_request:
+    branches: [ "master", "release-*" ]
+    paths: [ ".test-infra/metrics/.*$"]
+  issue_comment:
+    types: [created, edited]
+  workflow_dispatch:
+   inputs:
+     tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
+
+
+jobs:
+  PortablePythonPrecommit:
+    strategy:
+      matrix:
+        python_version: ['3.7','3.11']
+    #if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Portable_Python PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Java
+        uses: actions/setup-java@v3.8.0
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: |
+            ${{matrix.python_version}}
+            3.8
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: false
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+            go-version: '1.20'
+      - name: run Portable Python script
+        run: PY_VER=${{ matrix.python_version }} ; ./gradlew :sdks:python:test-suites:portable:py${PY_VER//.}:preCommitPy${PY_VER//.}
