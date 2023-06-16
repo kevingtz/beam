@@ -60,11 +60,17 @@ on:
 
   issue_comment:
     types: [created, edited]
+  workflow_dispatch:
+   inputs:
+     tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
 
 
 jobs:
   JavaPrecommit:
-    if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Java PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
+    if: github.event.workflow_dispatch || ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Java PreCommit'}} || ${{github.event.schedule == '* */6 * * *'}}
     runs-on: [self-hosted, ubuntu-20.04]
 
     steps:

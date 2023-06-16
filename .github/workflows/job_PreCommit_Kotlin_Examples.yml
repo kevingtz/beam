@@ -20,11 +20,17 @@ on:
     paths: [ 'model/.*', 'sdks/java/.*', 'runners/flink/.*', 'runners/spark/.*', 'runners/direct-java/.*', 'examples/kotlin/.*', 'release/.*' ]
   issue_comment:
     types: [created, edited]
+  workflow_dispatch:
+   inputs:
+     tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
 
 
 jobs:
   PortablePythonPrecommit:
-    if: ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Kotlin_Examples PreCommit'}} 
+    if: github.event.workflow_dispatch || ${{github.event.issue.pull_request}} || ${{github.event.comment.body == 'Run Kotlin_Examples PreCommit'}} 
     runs-on: ubuntu-20.04
 
     steps:
