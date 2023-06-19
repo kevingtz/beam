@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-java@v3.8.0
         with:
           distribution: 'zulu'
-          java-version: '8'
+          java-version: '7'
       - uses: actions/setup-python@v4
         with:
           python-version: "3.8"
