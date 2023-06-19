@@ -17,47 +17,6 @@ on:
   pull_request:
     branches: [ "master", "release-*" ]
     paths: [ 'model/.*', 'sdks/java/.*', 'runners/.*', 'examples/java/.*', 'examples/kotlin/.*', 'release/.*' ]
-    paths-ignore:
-      - 'extensions/avro'
-      - 'extensions/sql'
-      - 'io/amazon-web-services'
-      - 'io/amazon-web-services2'
-      - 'io/amqp'
-      - 'io/azure'
-      - 'io/cassandra'
-      - 'io/cdap'
-      - 'io/clickhouse'
-      - 'io/csv'
-      - 'io/debezium'
-      - 'io/elasticsearch'
-      - 'io/elasticsearch-tests'
-      - 'io/file-schema-transform'
-      - 'io/google-cloud-platform'
-      - 'io/hadoop-common'
-      - 'io/hadoop-file-system'
-      - 'io/hadoop-format'
-      - 'io/hbase'
-      - 'io/hcatalog'
-      - 'io/influxdb'
-      - 'io/jdbc'
-      - 'io/jms'
-      - 'io/kafka'
-      - 'io/kinesis'
-      - 'io/kudu'
-      - 'io/mqtt'
-      - 'io/mongodb'
-      - 'io/neo4j'
-      - 'io/parquet'
-      - 'io/pulsar'
-      - 'io/rabbitmq'
-      - 'io/redis'
-      - 'io/singlestore'
-      - 'io/snowflake'
-      - 'io/solr'
-      - 'io/splunk'
-      - 'io/thrift'
-      - 'io/tika'
-
   issue_comment:
     types: [created, edited]
   workflow_dispatch:
